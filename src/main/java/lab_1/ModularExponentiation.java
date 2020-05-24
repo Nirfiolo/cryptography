@@ -8,9 +8,9 @@ public final class ModularExponentiation {
     }
 
     static public BigInteger powerModule(
-            BigInteger number,
-            BigInteger exponent,
-            BigInteger module
+            final BigInteger number,
+            final BigInteger exponent,
+            final BigInteger module
     ) {
         BigInteger result = BigInteger.ONE;
 

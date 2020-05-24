@@ -8,7 +8,7 @@ public final class FermatTest {
 
     }
 
-    static public boolean isPrime(BigInteger number, SecureRandom random) {
+    static public boolean isPrime(final BigInteger number, final SecureRandom random) {
         if (BigInteger.ONE.equals(number) || BigInteger.ZERO.equals(number)) {
             return false;
         }
@@ -25,7 +25,7 @@ public final class FermatTest {
         return true;
     }
 
-    static private BigInteger getRandomBigIntegerByNumber(BigInteger number, SecureRandom random) {
+    static private BigInteger getRandomBigIntegerByNumber(final BigInteger number, final SecureRandom random) {
         while (true) {
             final  BigInteger a = new BigInteger(number.bitLength(), random);
 
