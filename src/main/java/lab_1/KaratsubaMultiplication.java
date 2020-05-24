@@ -1,6 +1,7 @@
 package lab_1;
 
 import java.math.BigInteger;
+import java.net.FileNameMap;
 
 public class KaratsubaMultiplication {
     private KaratsubaMultiplication() {
@@ -15,31 +16,48 @@ public class KaratsubaMultiplication {
         final int firstDigitsCount = first.toString().length();
         final int secondDigitsCount = second.toString().length();
 
-        final BigInteger firstTenInPower = BigInteger.valueOf((long) Math.pow(10.0, (double) (firstDigitsCount / 2)));
-        final BigInteger firstHalfOfFirst = first.divide(firstTenInPower);
-        final BigInteger secondHalfOfFirst = first.mod(firstTenInPower);
+        final int minimumDigitsCount = Math.min(firstDigitsCount, secondDigitsCount);
 
-        final BigInteger secondTenInPower = BigInteger.valueOf((long) Math.pow(10.0, (double) (secondDigitsCount / 2)));
-        final BigInteger firstHalfOfSecond = second.divide(secondTenInPower);
-        final BigInteger secondHalfOfSecond = second.mod(secondTenInPower);
+        // A = (ax + b)
+        // b = (cx + d)
+        // result = AB = (ax + b)(cx + d) = acx^2 + (ad + bc)x + bd
 
-        final BigInteger a = Multiply(firstHalfOfFirst, firstHalfOfSecond);
-        final BigInteger d = Multiply(secondHalfOfFirst, secondHalfOfSecond);
+        final int x = (minimumDigitsCount + 1) / 2;
 
-        final BigInteger e =
-                Multiply(firstHalfOfFirst.add(secondHalfOfFirst), firstHalfOfSecond.add(secondHalfOfSecond))
-                .subtract(a).subtract(d);
+        final BigInteger a = getFirstHalf(first, x);
+        final BigInteger b = getSecondHalf(first, x);
 
-        final BigInteger aResult = a.multiply(BigInteger.valueOf((long) Math.pow(10.0, (double) (firstDigitsCount))));
-        final BigInteger eResult = e.multiply(firstTenInPower);
+        final BigInteger c = getFirstHalf(second, x);
+        final BigInteger d = getSecondHalf(second, x);
 
-        return aResult.add(eResult).add(d);
+        final BigInteger ac = Multiply(a, c);
+        final BigInteger bd = Multiply(b, d);
+        final BigInteger ad = Multiply(a, d);
+        final BigInteger bc = Multiply(b, c);
+
+        final BigInteger ad_plus_bc = ad.add(bc);
+        final BigInteger acx2 = addZerosToEnd(ac, x * 2);
+        final BigInteger ad_plus_bc_x = addZerosToEnd(ad_plus_bc, x);
+
+        return acx2.add(ad_plus_bc_x).add(bd);
     }
 
-    static private boolean isSingleValue(BigInteger number) {
-        if (number.toString().length() == 1) {
-            return true;
+    static private boolean isSingleValue(final BigInteger number) {
+        return number.toString().length() == 1;
+    }
+
+    static private BigInteger addZerosToEnd(final BigInteger number, int count) {
+        return new BigInteger(number.toString() + "0".repeat(Math.max(0, count)));
+    }
+
+    static private BigInteger getFirstHalf(final BigInteger number, int size) {
+        if (number.toString().length() - size == 0) {
+            return BigInteger.ZERO;
         }
-        return false;
+        return new BigInteger(number.toString().substring(0, number.toString().length() - size));
+    }
+
+    static private BigInteger getSecondHalf(final BigInteger number, int size) {
+        return new BigInteger(number.toString().substring(number.toString().length() - size));
     }
 }

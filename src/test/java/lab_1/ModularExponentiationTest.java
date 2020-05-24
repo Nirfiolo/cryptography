@@ -7,11 +7,11 @@ import java.security.SecureRandom;
 
 public class ModularExponentiationTest extends TestCase {
     private final SecureRandom random = new SecureRandom();
-    private final int iteration = 100;
 
     public void testPowerModule() {
         final int bitLength = 512;
 
+        int iteration = 100;
         for (int i = 0; i < iteration; ++i) {
             final BigInteger number = BigInteger.probablePrime(bitLength, random);
             final BigInteger exponent = BigInteger.probablePrime(bitLength, random);
