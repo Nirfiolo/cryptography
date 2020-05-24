@@ -13,11 +13,11 @@ public class MillerRabinTestTest extends TestCase {
 
         int iteration = 100;
         for (int i = 0; i < iteration; ++i) {
-            final BigInteger prime_number = BigInteger.probablePrime(bitLength, random);
-            final BigInteger no_prime_number = prime_number.add(BigInteger.ONE);
+            final BigInteger primeNumber = BigInteger.probablePrime(bitLength, random);
+            final BigInteger noPrimeNumber = primeNumber.add(BigInteger.ONE);
 
-            assertTrue(MillerRabinTest.isPrime(prime_number, random));
-            assertFalse(MillerRabinTest.isPrime(no_prime_number, random));
+            assertTrue(MillerRabinTest.isPrime(primeNumber, random));
+            assertFalse(MillerRabinTest.isPrime(noPrimeNumber, random));
         }
     }
 }

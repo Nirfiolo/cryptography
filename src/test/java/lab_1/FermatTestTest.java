@@ -13,11 +13,11 @@ public class FermatTestTest extends TestCase {
 
         int iteration = 100;
         for (int i = 0; i < iteration; ++i) {
-            final BigInteger prime_number = BigInteger.probablePrime(bitLength, random);
-            final BigInteger no_prime_number = prime_number.add(BigInteger.ONE);
+            final BigInteger primeNumber = BigInteger.probablePrime(bitLength, random);
+            final BigInteger noPrimeNumber = primeNumber.add(BigInteger.ONE);
 
-            assertTrue(FermatTest.isPrime(prime_number, random));
-            assertFalse(FermatTest.isPrime(no_prime_number, random));
+            assertTrue(FermatTest.isPrime(primeNumber, random));
+            assertFalse(FermatTest.isPrime(noPrimeNumber, random));
         }
     }
 }

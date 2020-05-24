@@ -13,9 +13,9 @@ public class ModularExponentiationTest extends TestCase {
 
         int iteration = 100;
         for (int i = 0; i < iteration; ++i) {
-            final BigInteger number = BigInteger.probablePrime(bitLength, random);
-            final BigInteger exponent = BigInteger.probablePrime(bitLength, random);
-            final BigInteger module = BigInteger.probablePrime(bitLength, random);
+            final BigInteger number = new BigInteger(bitLength, random);
+            final BigInteger exponent = new BigInteger(bitLength, random);
+            final BigInteger module = new BigInteger(bitLength, random);
 
             final BigInteger expected = number.modPow(exponent, module);
             final BigInteger actual = ModularExponentiation.powerModule(number, exponent, module);

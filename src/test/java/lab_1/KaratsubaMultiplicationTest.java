@@ -14,11 +14,11 @@ public class KaratsubaMultiplicationTest extends TestCase {
 
         int iteration = 100;
         for (int i = 0; i < iteration; ++i) {
-            final BigInteger firstNumber = BigInteger.probablePrime(bitLength, random);
-            final BigInteger SecondNumber = BigInteger.probablePrime(bitLength, random);
+            final BigInteger firstNumber = new BigInteger(bitLength, random);
+            final BigInteger secondNumber = new BigInteger(bitLength, random);
 
-            final BigInteger expected = firstNumber.multiply(SecondNumber);
-            final BigInteger actual = KaratsubaMultiplication.Multiply(firstNumber, SecondNumber);
+            final BigInteger expected = firstNumber.multiply(secondNumber);
+            final BigInteger actual = KaratsubaMultiplication.Multiply(firstNumber, secondNumber);
 
             assertEquals(expected, actual);
         }
