@@ -9,20 +9,16 @@ public final class FermatTest {
     }
 
     static public boolean isPrime(BigInteger number, SecureRandom random) {
-
         if (BigInteger.ONE.equals(number) || BigInteger.ZERO.equals(number)) {
             return false;
         }
 
         final int iterations = 100;
-
-        for (int i = 0; i < iterations; ++i)
-        {
+        for (int i = 0; i < iterations; ++i) {
             BigInteger a = getRandomBigIntegerByNumber(number, random);
             a = a.modPow(number.subtract(BigInteger.ONE), number);
 
-            if (!BigInteger.ONE.equals(a))
-            {
+            if (!BigInteger.ONE.equals(a)) {
                 return false;
             }
         }
