@@ -9,20 +9,20 @@ public class Ripemd160 {
 
     }
 
-    static private final int blockSize = 64;
+    static private final int BLOCK_SIZE = 64;
 
     // Round constants for left line
-    static private final int[] kl = {
+    static private final int[] KL = {
         0x00000000, 0x5A827999, 0x6ED9EBA1, 0x8F1BBCDC, 0xA953FD4E
     };
 
     // Round constants for right line
-    static private final int[] kr = {
+    static private final int[] KR = {
             0x50A28BE6, 0x5C4DD124, 0x6D703EF3, 0x7A6D76E9, 0x00000000
     };
 
     // Message schedule for left line
-    static private final int[] rl = {
+    static private final int[] RL = {
             0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14, 15,
             7,  4, 13,  1, 10,  6, 15,  3, 12,  0,  9,  5,  2, 14, 11,  8,
             3, 10, 14,  4,  9, 15,  8,  1,  2,  7,  0,  6, 13, 11,  5, 12,
@@ -31,7 +31,7 @@ public class Ripemd160 {
     };
 
     // Message schedule for right line
-    static private final int[] rr = {
+    static private final int[] RR = {
             5, 14,  7,  0,  9,  2, 11,  4, 13,  6, 15,  8,  1, 10,  3, 12,
             6, 11,  3,  7,  0, 13,  5, 10, 14, 15,  8, 12,  4,  9,  1,  2,
             15,  5,  1,  3,  7, 14,  6,  9, 11,  8, 12,  2, 10,  0,  4, 13,
@@ -40,7 +40,7 @@ public class Ripemd160 {
     };
 
     // Left-rotation for left line
-    static private final int[] sl = {
+    static private final int[] SL = {
             11, 14, 15, 12,  5,  8,  7,  9, 11, 13, 14, 15,  6,  7,  9,  8,
             7,  6,  8, 13, 11,  9,  7, 15,  7, 12, 15,  9, 11,  7, 13, 12,
             11, 13,  6,  7, 14,  9, 13, 15, 14,  8, 13,  6,  5, 12,  7,  5,
@@ -49,7 +49,7 @@ public class Ripemd160 {
     };
 
     // Left-rotation for right line
-    static private final int[] sr = {
+    static private final int[] SR = {
             8,  9,  9, 11, 13, 15, 15,  5,  7,  7,  8, 11, 14, 14, 12,  6,
             9, 13, 15,  7, 12,  8,  9, 11,  7,  7, 12,  7,  6, 15, 13, 11,
             9,  7, 15, 11,  8,  6,  6, 14, 12, 13,  5, 14, 13, 13,  7,  5,
@@ -63,10 +63,11 @@ public class Ripemd160 {
         int[] state = {
                 0x67452301, 0xEFCDAB89, 0x98BADCFE, 0x10325476, 0xC3D2E1F0
         };
-        int offset = message.length / blockSize * blockSize;
+
+        int offset = message.length / BLOCK_SIZE * BLOCK_SIZE;
         compress(state, message, offset);
 
-        byte[] block = new byte[blockSize];
+        byte[] block = new byte[BLOCK_SIZE];
         System.arraycopy(message, offset, block, 0, message.length - offset);
         offset = message.length % block.length;
         block[offset] = (byte) 0x80;
@@ -89,12 +90,12 @@ public class Ripemd160 {
     }
 
     private static void compress(int[] state, byte[] blocks, int size) {
-        if (size % blockSize != 0) {
+        if (size % BLOCK_SIZE != 0) {
             throw new IllegalArgumentException();
         }
-        for (int i = 0; i < size; i += blockSize) {
+        for (int i = 0; i < size; i += BLOCK_SIZE) {
             int[] schedule = new int[16];
-            for (int j = 0; j < blockSize; j++) {
+            for (int j = 0; j < BLOCK_SIZE; j++) {
                 schedule[j / 4] |= (blocks[i + j] & 0xFF) << (j % 4 * 8);
             }
 
@@ -105,13 +106,13 @@ public class Ripemd160 {
             int el = state[4], er = state[4];
             for (int j = 0; j < 80; j++) {
                 int temp;
-                temp = rotateLeft(al + f(j, bl, cl, dl) + schedule[rl[j]] + kl[j / 16], sl[j]) + el;
+                temp = rotateLeft(al + f(j, bl, cl, dl) + schedule[RL[j]] + KL[j / 16], SL[j]) + el;
                 al = el;
                 el = dl;
                 dl = rotateLeft(cl, 10);
                 cl = bl;
                 bl = temp;
-                temp = rotateLeft(ar + f(79 - j, br, cr, dr) + schedule[rr[j]] + kr[j / 16], sr[j]) + er;
+                temp = rotateLeft(ar + f(79 - j, br, cr, dr) + schedule[RR[j]] + KR[j / 16], SR[j]) + er;
                 ar = er;
                 er = dr;
                 dr = rotateLeft(cr, 10);
